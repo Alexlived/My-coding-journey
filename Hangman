@@ -1,0 +1,51 @@
+#This is supposed to be hangman
+import random
+guessed_letters = set()
+words = [
+'electricity', 'donkey', 'hardware', 'xerox', 'transistor', 'computer', 'desktop',
+'engineering', 'hangman', 'circuit', 'imagination', 'robot', 'memory', 'power', 
+'submarine', 'chess', 'resistance', 'matrix', 'function', 'laser', 'mechanism', 
+'bodyguard', 'titanic', 'global', 'ozone', 'bridge', 'technology']
+def get_word():
+    
+    return random.choice(words)    
+def fguess():
+    while True:
+        guess = input('What letter would you like to guess?:').lower()
+        if len(guess) == 1:
+            if guess not in guessed_letters:
+                return guess
+            else:
+                print('You already guessed that')
+        else:
+            print('You cannot guess more than one letter at a time.Try again.')
+def display(word):
+    print('Found letters: ',end=' ')
+    for letter in word:
+        if letter in guessed_letters:
+            print(letter,end = ' ')
+        else:
+            print('-',end=' ')
+def main():
+    word = get_word()
+    word = list(word)
+    lives = 6
+    while True:
+        print()
+        guess = fguess()
+        guessed_letters.add(guess)
+        if all(letter in guessed_letters for letter in word):
+            print('You win!Congrats!')
+            break
+        if lives == 0:
+            print('Game Over loser!')
+            quit()
+        display(word)
+        print()
+        if guess in word:
+            print(f'{guess} is in the word.')
+        else:
+            print(f'{guess} is not the word.')
+            lives -= 1
+            print(f'You have {lives} lives left.')
+main()
